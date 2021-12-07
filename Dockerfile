@@ -17,7 +17,7 @@ RUN apt update && \
 	apt update && \
 	apt install -y mono-devel
 
-RUN wget -O /tmp/gotty.tar.gz https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linux_amd64.tar.gz && \
+RUN wget -O /tmp/gotty.tar.gz https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linux_arm.tar.gz && \
 	tar -C /usr/bin/ -xvf /tmp/gotty.tar.gz && \
 	rm -rf /tmp/gotty.tar.gz
 
