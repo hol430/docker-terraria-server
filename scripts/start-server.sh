@@ -117,7 +117,10 @@ cd ${SERVER_DIR}
 screen -S Terraria -L -Logfile ${SERVER_DIR}/masterLog.0 -d -m mono ${SERVER_DIR}/tModLoaderServer.exe -tmlsavedirectory ${SERVER_DIR}/TML ${GAME_PARAMS}
 sleep 2
 if [ "${ENABLE_WEBCONSOLE}" == "true" ]; then
+    echo "---Start gotty---"
     /opt/scripts/start-gotty.sh 2>/dev/null &
+else
+    echo "---gotty disabled"
 fi
 screen -S watchdog -d -m /opt/scripts/start-watchdog.sh
 tail -f ${SERVER_DIR}/masterLog.0
