@@ -1,56 +1,60 @@
 #!/bin/bash
-echo "---This container is DEPRECATED---"
-sleep infinity
-CUR_V="$(grep "Version" /serverdata/serverfiles/changelog.txt 2>/dev/null | head -1 | cut -d ' ' -f 2)"
-CUR_V="${CUR_V//./}"
+# echo "---This container is DEPRECATED---"
+# sleep infinity
+# CUR_V="$(grep "Version" /serverdata/serverfiles/changelog.txt 2>/dev/null | head -1 | cut -d ' ' -f 2)"
+# CUR_V="${CUR_V//./}"
 # Deprecated since Terraria changed how to get the download URL again
 #DL_LINK=https://terraria.org$(curl -sL https://terraria.org/ | grep -Eo $'[^\'"]+terraria-server-[^\'"]+')
 #DL_TOP=?${DL_LINK##*\?}
 #LAT_V="$(echo ${DL_LINK##*-} | cut -d '.' -f 1)"
 #DL_LINK=${DL_LINK%terraria*}
-LAT_V="${TERRARIA_SRV_V//./}"
+# LAT_V="${TERRARIA_SRV_V//./}"
 
-rm -rf ${SERVER_DIR}/terraria-server-*.zip
+# rm -rf ${SERVER_DIR}/terraria-server-*.zip
 
 echo "---Version Check---"
 if [ ! -d "${SERVER_DIR}/lib" ]; then
-   	echo "---Terraria not found, downloading!---"
-   	cd ${SERVER_DIR}
-   	if wget -q -nc --show-progress --progress=bar:force:noscroll -O terraria-server-$LAT_V.zip "https://terraria.org/api/download/pc-dedicated-server/terraria-server-${LAT_V}.zip" ; then
-		echo "---Successfully downloaded Terraria---"
-	else
-		echo "------------------------------------------------------------------------------"
-		echo "------------Can't download Terraria, putting server into sleep mode-----------"
-		echo "------------------------------------------------------------------------------"
-		sleep infinity
-	fi
-    unzip -qo ${SERVER_DIR}/terraria-server-$LAT_V.zip
-    cp -R -f ${SERVER_DIR}/$LAT_V/Linux/* ${SERVER_DIR}
-    rm -R ${SERVER_DIR}/terraria-server-$LAT_V.zip
-elif [ "$LAT_V" != "$CUR_V" ]; then
-    echo "---Newer version found, installing!---"
-    cd ${SERVER_DIR}
-   	if wget -q -nc --show-progress --progress=bar:force:noscroll -O terraria-server-$LAT_V.zip "https://terraria.org/api/download/pc-dedicated-server/terraria-server-${LAT_V}.zip" ; then
-		echo "---Successfully downloaded Terraria---"
-	else
-		echo "------------------------------------------------------------------------------"
-		echo "------------Can't download Terraria, putting server into sleep mode-----------"
-		echo "------------------------------------------------------------------------------"
-		sleep infinity
-	fi
-    unzip -qo ${SERVER_DIR}/terraria-server-$LAT_V.zip
-    cp -R -f ${SERVER_DIR}/$LAT_V/Linux/* ${SERVER_DIR}
-    rm -R ${SERVER_DIR}/terraria-server-$LAT_V.zip
-elif [ "$LAT_V" == "$CUR_V" ]; then
-    echo "---Terraria Server v$TERRARIA_SRV_V up-to-date---"
-	echo "---If you want to change the version add a Variable with the Key: 'TERRARIA_SRV_V' and the Value eg: '1.4.2.3'."
-else
- 	echo "---Something went wrong, putting server in sleep mode---"
- 	sleep infinity
+   	echo "---Terraria not found!---"
+    sleep infinity
+   	# cd ${SERVER_DIR}
+   	# if wget -q -nc --show-progress --progress=bar:force:noscroll -O terraria-server-$LAT_V.zip "https://terraria.org/api/download/pc-dedicated-server/terraria-server-${LAT_V}.zip" ; then
+	# 	echo "---Successfully downloaded Terraria---"
+	# else
+	# 	echo "------------------------------------------------------------------------------"
+	# 	echo "------------Can't download Terraria, putting server into sleep mode-----------"
+	# 	echo "------------------------------------------------------------------------------"
+	# 	sleep infinity
+	# fi
+    # unzip -qo ${SERVER_DIR}/terraria-server-$LAT_V.zip
+    # cp -R -f ${SERVER_DIR}/$LAT_V/Linux/* ${SERVER_DIR}
+    # rm -R ${SERVER_DIR}/terraria-server-$LAT_V.zip
 fi
+# elif [ "$LAT_V" != "$CUR_V" ]; then
+#     echo "---Newer version found, installing!---"
+#     cd ${SERVER_DIR}
+#    	if wget -q -nc --show-progress --progress=bar:force:noscroll -O terraria-server-$LAT_V.zip "https://terraria.org/api/download/pc-dedicated-server/terraria-server-${LAT_V}.zip" ; then
+# 		echo "---Successfully downloaded Terraria---"
+# 	else
+# 		echo "------------------------------------------------------------------------------"
+# 		echo "------------Can't download Terraria, putting server into sleep mode-----------"
+# 		echo "------------------------------------------------------------------------------"
+# 		sleep infinity
+# 	fi
+#     unzip -qo ${SERVER_DIR}/terraria-server-$LAT_V.zip
+#     cp -R -f ${SERVER_DIR}/$LAT_V/Linux/* ${SERVER_DIR}
+#     rm -R ${SERVER_DIR}/terraria-server-$LAT_V.zip
+# elif [ "$LAT_V" == "$CUR_V" ]; then
+#     echo "---Terraria Server v$TERRARIA_SRV_V up-to-date---"
+# 	echo "---If you want to change the version add a Variable with the Key: 'TERRARIA_SRV_V' and the Value eg: '1.4.2.3'."
+# else
+#  	echo "---Something went wrong, putting server in sleep mode---"
+#  	sleep infinity
+# fi
 
 CUR_MOD_V="$(find ${SERVER_DIR} -name tmodloader_* | cut -d '_' -f2)"
-LAT_MOD_V="$(wget -qO- https://api.github.com/repos/tModLoader/tModLoader/releases/latest | grep tag_name | cut -d '"' -f4 | cut -d 'v' -f2)"
+# LAT_MOD_V="$(wget -qO- https://api.github.com/repos/tModLoader/tModLoader/releases/latest | grep tag_name | cut -d '"' -f4 | cut -d 'v' -f2)"
+# Hardcoded TML version
+LAT_MOD_V=0.11.8.5
 
 echo "---Version Check of tModloader---"
 if [ -z "$CUR_MOD_V" ]; then
